@@ -13,6 +13,8 @@ agents:
     documentation: ""
   SQLAgent:
     documentation: ""
+  AutoGPTAgent:
+    documentation: ""
 chains:
   LLMChain:
     documentation: "https://python.langchain.com/docs/modules/chains/foundational/llm_chain"

@@ -8,6 +8,7 @@ from langchain.agents import (
     initialize_agent,
     AgentType,
 )
+from langchain.experimental import AutoGPT
 from langchain.agents.agent_toolkits import (
     SQLDatabaseToolkit,
     VectorStoreInfo,
@@ -319,6 +320,37 @@ class InitializeAgent(CustomAgentExecutor):
         return super().run(*args, **kwargs)
 
 
+class AutoGPTAgent(CustomAgentExecutor):
+    """AutoGPT Agent"""
+
+    @staticmethod
+    def function_name():
+        return "AutoGPTAgent"
+
+    @classmethod
+    def initialize(
+        cls,
+        ai_name: str,
+        ai_role: str,
+        llm: BaseLanguageModel,
+        tools: List[Tool],
+        memory: Optional[BaseChatMemory] = None,
+    ):
+        return AutoGPT.from_llm_and_tools(
+            ai_name=ai_name,
+            ai_role=ai_role,
+            tools=tools,
+            llm=llm,
+            memory=memory,
+        )
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+    def run(self, *args, **kwargs):
+        return super().run(*args, **kwargs)
+
+
 CUSTOM_AGENTS = {
     "JsonAgent": JsonAgent,
     "CSVAgent": CSVAgent,
@@ -326,4 +358,5 @@ CUSTOM_AGENTS = {
     "VectorStoreAgent": VectorStoreAgent,
     "VectorStoreRouterAgent": VectorStoreRouterAgent,
     "SQLAgent": SQLAgent,
+    "AutoGPTAgent": AutoGPTAgent,
 }

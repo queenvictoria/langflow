@@ -242,3 +242,62 @@ class JsonAgentNode(FrontendNode):
 
     def to_dict(self):
         return super().to_dict()
+
+
+class AutoGPTAgentNode(FrontendNode):
+    name: str = "AutoGPTAgent"
+    template: Template = Template(
+        type_name="autogpt_agent",
+        fields=[
+            TemplateField(
+                field_type="str",
+                required=True,
+                is_list=False,
+                show=True,
+                multiline=False,
+                name="ai_name",
+                display_name="AI name",
+                advanced=False,
+            ),
+            TemplateField(
+                field_type="str",
+                required=True,
+                is_list=False,
+                show=True,
+                multiline=False,
+                name="ai_role",
+                display_name="AI role",
+                advanced=False,
+            ),
+            # Flowise uses a VectorStore retriever rather than memory
+            TemplateField(
+                field_type="BaseChatMemory",
+                required=False,
+                show=True,
+                name="memory",
+                advanced=False,
+            ),
+            TemplateField(
+                field_type="Tool",
+                required=False,
+                show=True,
+                name="tools",
+                display_name="Allowed tools",
+                is_list=True,
+                advanced=False,
+            ),
+            TemplateField(
+                field_type="BaseLanguageModel",
+                required=True,
+                show=True,
+                name="llm",
+                display_name="LLM",
+                advanced=False,
+            ),
+        ],
+    )
+    description: str = """Autonomous agent with chain of thoughts for self-guided task completion."""
+    base_classes: list[str] = ["AutoGPT"]
+
+    def to_dict(self) -> dict:
+        return super().to_dict()

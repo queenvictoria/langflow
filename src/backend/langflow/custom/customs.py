@@ -17,6 +17,7 @@ CUSTOM_NODES = {
         "VectorStoreAgent": frontend_node.agents.VectorStoreAgentNode(),
         "VectorStoreRouterAgent": frontend_node.agents.VectorStoreRouterAgentNode(),
         "SQLAgent": frontend_node.agents.SQLAgentNode(),
+        "AutoGPTAgent": frontend_node.agents.AutoGPTAgentNode(),
     },
     "utilities": {
         "SQLDatabase": frontend_node.agents.SQLDatabaseNode(),
