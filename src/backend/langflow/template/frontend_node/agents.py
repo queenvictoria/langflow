@@ -246,6 +246,7 @@ class JsonAgentNode(FrontendNode):
 
 class AutoGPTAgentNode(FrontendNode):
     name: str = "AutoGPTAgent"
+    display_name: str = "AutoGPTAgent"
     template: Template = Template(
         type_name="autogpt_agent",
         fields=[
@@ -269,6 +270,16 @@ class AutoGPTAgentNode(FrontendNode):
                 display_name="AI role",
                 advanced=False,
             ),
+            # TemplateField(
+            #     field_type="int",
+            #     required=False,
+            #     is_list=False,
+            #     show=True,
+            #     multiline=False,
+            #     name="max_loop",
+            #     display_name="Maximum number of loops",
+            #     advanced=False,
+            # ),
             # Flowise uses a VectorStore retriever rather than memory
             TemplateField(
                 field_type="BaseChatMemory",
@@ -297,7 +308,13 @@ class AutoGPTAgentNode(FrontendNode):
         ],
     )
     description: str = """Autonomous agent with chain of thoughts for self-guided task completion."""
-    base_classes: list[str] = ["AutoGPT"]
+    base_classes: list[str] = ["AgentExecutor", "function"]
+    # base_classes: list[str] = ["AutoGPT"]
 
     def to_dict(self) -> dict:
         return super().to_dict()
+
+    @staticmethod
+    def format_field(field: TemplateField, name: Optional[str] = None) -> None:
+        # do nothing and don't return anything
+        pass

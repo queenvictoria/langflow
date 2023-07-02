@@ -36,6 +36,11 @@ from langchain.tools.python.tool import PythonAstREPLTool
 from langchain.tools.sql_database.prompt import QUERY_CHECKER
 from langflow.interface.base import CustomAgentExecutor
 
+from langchain.callbacks.manager import (
+    Callbacks
+)
+from typing import Any, Dict, List, Optional, Union
+
 
 class JsonAgent(CustomAgentExecutor):
     """Json agent"""
@@ -334,21 +339,52 @@ class AutoGPTAgent(CustomAgentExecutor):
         ai_role: str,
         llm: BaseLanguageModel,
         tools: List[Tool],
+        # max_loop: int = 5,
         memory: Optional[BaseChatMemory] = None,
     ):
-        return AutoGPT.from_llm_and_tools(
+        agent = AutoGPT.from_llm_and_tools(
             ai_name=ai_name,
             ai_role=ai_role,
             tools=tools,
             llm=llm,
             memory=memory,
+            # max_iterations=max_loop,
+            # return_intermediate_steps=True,
         )
+        agent.acall = cls._acall
+        # @FIX What should keys refer to?
+        agent.output_keys = ["fred"]
+        # agent.output_keys = [{"log": "fred"}]
+
+        return agent
+
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
     def run(self, *args, **kwargs):
+        print("AutoGPT.run()")
+        # print(args)
+        # print(kwargs)
         return super().run(*args, **kwargs)
+
+    async def _acall(self,
+        chat_input: str,
+        callbacks: Callbacks = None,
+    ):
+        print('AutoGPT._acall()')
+        print(chat_input)  # False
+        print(callbacks)            # [langflow.api.v1.callback.AsyncStreamingLLMCallbackHandler]
+        # AutoGPT has no attribute output_keys
+        # @TODO What should acall() return? A promise of something.
+        return {
+            "intermediate_steps": [
+                {
+                    "index": 1,
+                    "result": "fake data"
+                }
+            ]
+        }
 
 
 CUSTOM_AGENTS = {
