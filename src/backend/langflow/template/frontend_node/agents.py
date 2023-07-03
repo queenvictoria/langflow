@@ -308,8 +308,9 @@ class AutoGPTAgentNode(FrontendNode):
         ],
     )
     description: str = """Autonomous agent with chain of thoughts for self-guided task completion."""
-    base_classes: list[str] = ["AgentExecutor", "function"]
-    # base_classes: list[str] = ["AutoGPT"]
+    # base_classes: list[str] = ["AgentExecutor", "function"]
+    # Flowise uses AutoGPT as base classes
+    base_classes: list[str] = ["AutoGPT"]
 
     def to_dict(self) -> dict:
         return super().to_dict()

@@ -14,7 +14,7 @@ agents:
   SQLAgent:
     documentation: ""
   AutoGPTAgent:
-    documentation: ""
+    documentation: "https://python.langchain.com/docs/use_cases/autonomous_agents/autogpt"
 chains:
   LLMChain:
     documentation: "https://python.langchain.com/docs/modules/chains/foundational/llm_chain"
